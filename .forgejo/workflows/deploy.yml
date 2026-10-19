@@ -10,7 +10,7 @@ jobs:
       - run: |
           # Use your favorite static site generator here!
           mkdir _site
-          cp *.html _site/
+          cp ./* _site/
       - uses: https://codeberg.org/git-pages/action@v2
         with:
           site: https://${{ forge.repository_owner }}.codeberg.page/repository-name/
