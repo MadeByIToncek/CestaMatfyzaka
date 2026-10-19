@@ -1,0 +1,8 @@
+{
+  "Identifier": "team1",
+  "PrettyName": "Team 1",
+  "CompletedGames": [
+    "game1",
+    "game3"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "Categories": [
+    {
+      "Identifier": "test1",
+      "PrettyName": "Category 1",
+      "RequiredFinished": 2,
+      "Order": 1,
+      "Games": [
+        {
+          "Identifier": "game1",
+          "PrettyName": "Game 1",
+          "Order": 1
+        },
+        {
+          "Identifier": "game2",
+          "PrettyName": "Game 2",
+          "Order": 2
+        }
+      ]
+    },
+    {
+      "Identifier": "test2",
+      "PrettyName": "Category 2",
+      "RequiredFinished": 1,
+      "Order": 2,
+      "Games": [
+        {
+          "Identifier": "game3",
+          "PrettyName": "Game 3",
+          "Order": 1
+        },
+        {
+          "Identifier": "game4",
+          "PrettyName": "Game 4",
+          "Order": 2
+        }
+      ]
+    }
+  ]
+}

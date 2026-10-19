@@ -35,7 +35,7 @@ jobs:
         with:
           dotnet-version: '10.0.x'
       - name: Build Pages
-        run: dotnet run ./scripts/BuildSite.cs
+        run: dotnet run --project ./scripts
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
