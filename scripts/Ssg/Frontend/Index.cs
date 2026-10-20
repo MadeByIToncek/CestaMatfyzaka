@@ -33,6 +33,6 @@ public partial class StaticSiteGenerator {
 			sb.AppendLine(string.Format(completed ? CellOk : Cell, checkmark));
 		}
 
-		return string.Format(Row, string.Format(Link, team.Team.PrettyName, $"/{team.Team.Identifier}.html"), sb);
+		return string.Format(Row, string.Format(Link, team.Team.PrettyName, $"{team.Team.Identifier}.html"), sb);
 	}
 }
