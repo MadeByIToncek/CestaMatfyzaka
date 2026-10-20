@@ -29,7 +29,7 @@ public partial class StaticSiteGenerator {
 		pageRenders.AddLast(RenderIndex(teamScores, sd));
 		pageRenders.AddLast(RenderGameIndex(sd));
 		foreach (TeamScore score in teamScores) {
-			pageRenders.AddLast(RenderTeamPage(score));
+			pageRenders.AddLast(RenderTeamPage(score,sd));
 		}
 
 		await Task.WhenAll(pageRenders);

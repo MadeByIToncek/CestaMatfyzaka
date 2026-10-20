@@ -11,6 +11,7 @@ public partial class StaticSiteGenerator {
 		}
 
 		StringBuilder sb2 = new();
+		sb2.AppendLine(string.Format(ColumnCell, "Name"));
 		foreach (Category t in sd.Categories.OrderBy(x => x.Order)) {
 			sb2.AppendLine(string.Format(ColumnCell, t.PrettyName));
 		}

@@ -11,16 +11,24 @@ public partial class StaticSiteGenerator {
 	private const string ColumnCell = """
 	                                  <th scope="col">{0}</th>
 	                                  """;
+	private const string ColumnCellOk = """
+	                                  <th scope="col" class="theme-success">{0}</th>
+	                                  """;
+	private const string ColumnCellFail = """
+	                                  <th scope="col" class="theme-danger">{0}</th>
+	                                  """;
 
 	private const string Cell = "<td>{0}</td>";
-	private const string Link = "<a href=\"{1}\" class=\"theme-secondary underline-offset-2 underline-20 hover:underline-100\">{0}</a>";
+
+	private const string Link =
+		"<a href=\"{1}\" class=\"theme-secondary underline-offset-2 underline-20 hover:underline-100\">{0}</a>";
+
 	private const string CellOk = "<td class=\"theme-success\">{0}</td>";
 
 	private const string Table = """
 	                             <table class="table">
 	                               <thead>
 	                                 <tr>
-	                                   <th scope="col">Name</th>
 	                                   {1}
 	                                 </tr>
 	                               </thead>
@@ -28,6 +36,42 @@ public partial class StaticSiteGenerator {
 	                               {0}
 	                               </tbody>
 	                             </table>
+	                             """;
+
+	private const string Separator = "<span class=\"mb-3\"></span>";
+
+	private const string Container = """
+	                                 		<div class="container">
+	                                 			<button
+	                                 				type="button"
+	                                 				class="btn-outline theme-secondary btn-icon mb-3"
+	                                 				aria-label="Auto theme"
+	                                                 onclick="window.location = '/'"
+	                                 			>
+	                                 				<svg
+	                                 					xmlns="http://www.w3.org/2000/svg"
+	                                 					width="16"
+	                                 					height="16"
+	                                 					fill="currentColor"
+	                                 					class="bi bi-arrow-left"
+	                                 					viewBox="0 0 16 16"
+	                                 				>
+	                                 					<path
+	                                 						fill-rule="evenodd"
+	                                 						d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+	                                 					/>
+	                                 				</svg>
+	                                 			</button>
+	                                 			<div class="card">
+	                                 				<div class="card-body">
+	                                 					{0}
+	                                 				</div>
+	                                 			</div>
+	                                 		</div>
+	                                 """;
+
+	private const string Title = """
+	                             <{0}>{1}</{0}>
 	                             """;
 
 	private const string Page = """
