@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using CestaMatfyzaka.Model;
@@ -6,6 +7,9 @@ namespace CestaMatfyzaka.Ssg;
 
 public partial class StaticSiteGenerator {
 	public async Task Start() {
+		Stopwatch sw = new();
+		sw.Start();
+		LogTimed(sw, "Starting processing");
 		SchemaDefinition? sd = await LoadSchemaDefinition();
 		if (sd == null) {
 			throw new StaticSiteGeneratorException("Schema definition could not be located!");
@@ -15,8 +19,11 @@ public partial class StaticSiteGenerator {
 			throw new StaticSiteGeneratorException("Schema is not consistent!");
 		}
 
+		LogTimed(sw, "Schema definition");
 		List<Team> teams = await LoadTeams();
+		LogTimed(sw, "Teams");
 		List<TeamScore> teamScores = await ComputeScored(teams, sd);
+		LogTimed(sw, "Scores");
 
 		if (Directory.Exists("./public")) {
 			Directory.Delete("./public", true);
@@ -29,10 +36,18 @@ public partial class StaticSiteGenerator {
 		pageRenders.AddLast(RenderIndex(teamScores, sd));
 		pageRenders.AddLast(RenderGameIndex(sd));
 		foreach (TeamScore score in teamScores) {
-			pageRenders.AddLast(RenderTeamPage(score,sd));
+			pageRenders.AddLast(RenderTeamPage(score, sd));
 		}
 
 		await Task.WhenAll(pageRenders);
+		LogTimed(sw, "Render finished!");
+	}
+
+	private void LogTimed(Stopwatch sw, string msg) {
+		double elapsed = sw.Elapsed.TotalMicroseconds / 1000d;
+
+		Console.WriteLine($"[{elapsed:F1} ms] {msg}");
+		sw.Restart();
 	}
 
 	private async Task<List<TeamScore>> ComputeScored(List<Team> teams, SchemaDefinition sd) {
