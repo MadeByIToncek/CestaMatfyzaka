@@ -21,7 +21,7 @@ public partial class StaticSiteGenerator {
 	private const string Cell = "<td>{0}</td>";
 
 	private const string Link =
-		"<a href=\"{1}\" class=\"theme-secondary underline-offset-2 underline-20 hover:underline-100\">{0}</a>";
+		"<a href=\"./{1}\" class=\"theme-secondary underline-offset-2 underline-20 hover:underline-100\">{0}</a>";
 
 	private const string CellOk = "<td class=\"theme-success\">{0}</td>";
 
@@ -46,7 +46,7 @@ public partial class StaticSiteGenerator {
 	                                 				type="button"
 	                                 				class="btn-outline theme-secondary btn-icon mb-3"
 	                                 				aria-label="Auto theme"
-	                                                 onclick="window.location = '/'"
+	                                                 onclick="window.location = './index.html'"
 	                                 			>
 	                                 				<svg
 	                                 					xmlns="http://www.w3.org/2000/svg"
