@@ -14,12 +14,13 @@ public partial class StaticSiteGenerator {
 		if (sd == null) {
 			throw new StaticSiteGeneratorException("Schema definition could not be located!");
 		}
+		LogTimed(sw, "Schema definition");
 
 		if (!sd.IsConsistent()) {
 			throw new StaticSiteGeneratorException("Schema is not consistent!");
 		}
 
-		LogTimed(sw, "Schema definition");
+		LogTimed(sw, "Schema consistency");
 		List<Team> teams = await LoadTeams();
 		LogTimed(sw, "Teams");
 		List<TeamScore> teamScores = await ComputeScored(teams, sd);
