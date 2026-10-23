@@ -22,12 +22,12 @@ class Program {
 			}
 		}
 
-		StaticSiteGenerator ssg = new StaticSiteGenerator();
+		StaticSiteGenerator ssg = new();
 		await ssg.Start();
 	}
 
-	private static string? PrintExampleTeam() {
-		Team team = new Team() {
+	private static string PrintExampleTeam() {
+		Team team = new() {
 			Identifier = "team",
 			PrettyName = "Team",
 			CompletedGames = ["game1", "game3"]
@@ -47,36 +47,36 @@ class Program {
 	private static string PrintExampleSchema() {
 		SchemaDefinition sd = new() {
 			Categories = [
-				new Category() {
+				new Category {
 					Identifier = "test1",
 					PrettyName = "Category 1",
 					RequiredFinished = 2,
 					Order = 1,
 					Games = [
-						new Game() {
+						new Game {
 							Order = 1,
 							Identifier = "game1",
 							PrettyName = "Game 1"
 						},
-						new Game() {
+						new Game {
 							Order = 2,
 							Identifier = "game2",
 							PrettyName = "Game 2"
 						}
 					]
 				},
-				new Category() {
+				new Category {
 					Identifier = "test2",
 					PrettyName = "Category 2",
 					RequiredFinished = 1,
 					Order = 2,
 					Games = [
-						new Game() {
+						new Game {
 							Order = 1,
 							Identifier = "game3",
 							PrettyName = "Game 3"
 						},
-						new Game() {
+						new Game {
 							Order = 2,
 							Identifier = "game4",
 							PrettyName = "Game 4"
@@ -90,6 +90,6 @@ class Program {
 			throw new ConstraintException("Schema is not consistent!");
 		}
 
-		return JsonSerializer.Serialize(sd, new JsonSerializerOptions() { WriteIndented = true });
+		return JsonSerializer.Serialize(sd, new JsonSerializerOptions { WriteIndented = true });
 	}
 }

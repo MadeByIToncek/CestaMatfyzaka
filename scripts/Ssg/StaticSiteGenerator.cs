@@ -14,6 +14,7 @@ public partial class StaticSiteGenerator {
 		if (sd == null) {
 			throw new StaticSiteGeneratorException("Schema definition could not be located!");
 		}
+
 		LogTimed(sw, "Schema definition");
 
 		if (!sd.IsConsistent()) {
@@ -49,53 +50,58 @@ public partial class StaticSiteGenerator {
 		sw.Restart();
 	}
 
-	private async Task<List<TeamScore>> ComputeScored(List<Team> teams, SchemaDefinition sd) {
+	private static async Task<List<TeamScore>> ComputeScored(List<Team> teams, SchemaDefinition sd) {
 		return [
 			.. await Task.WhenAll(teams.Select(async team => await Evaluate(team, sd)))
 		];
 	}
 
-	private async Task<TeamScore> Evaluate(Team team, SchemaDefinition sd) {
-		Dictionary<string, int> categoryScores = [];
-		foreach (Category category in sd.Categories) {
-			categoryScores.TryAdd(category.Identifier, category.RequiredFinished);
-		}
-
-		foreach (string x in team.CompletedGames) {
-			Category? category = sd.Categories.FirstOrDefault(y => y.Games.Any(z => z.Identifier == x));
-			if (category == null) {
-				throw new StaticSiteGeneratorException($"Team {team} has game {x} which isn't in any category!");
+	private static Task<TeamScore> Evaluate(Team team, SchemaDefinition sd) {
+		try {
+			Dictionary<string, int> categoryScores = [];
+			foreach (Category category in sd.Categories) {
+				categoryScores.TryAdd(category.Identifier, category.RequiredFinished);
 			}
 
-			categoryScores[category.Identifier] -= 1;
-		}
+			foreach (string x in team.CompletedGames) {
+				Category? category = sd.Categories.FirstOrDefault(y => y.Games.Any(z => z.Identifier == x));
+				if (category == null) {
+					throw new StaticSiteGeneratorException($"Team {team} has game {x} which isn't in any category!");
+				}
 
-		return new TeamScore {
-			Team = team,
-			ObtainedCategories = [
-				.. categoryScores
-					.Where(x => x.Value <= 0)
-					.Select(x => x.Key)
-			]
-		};
+				categoryScores[category.Identifier] -= 1;
+			}
+
+			return Task.FromResult(new TeamScore {
+				Team = team,
+				ObtainedCategories = [
+					.. categoryScores
+						.Where(x => x.Value <= 0)
+						.Select(x => x.Key)
+				]
+			});
+		} catch (Exception exception) {
+			return Task.FromException<TeamScore>(exception);
+		}
 	}
 
-	[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")] //linq is stupid, can't be null
-	private async Task<List<Team>> LoadTeams() {
+	private static async Task<List<Team>> LoadTeams() {
 		return [
-			.. (await Task.WhenAll(
+			.. await Task.WhenAll(
 				Directory.EnumerateFiles("./scores")
 					.Where(path => path.EndsWith(".team"))
 					.Select(async filePath => {
 							await using FileStream fs = File.OpenRead(filePath);
-							return await JsonSerializer.DeserializeAsync<Team>(fs);
+							Team? team = await JsonSerializer.DeserializeAsync<Team>(fs);
+							return team ??
+							       throw new StaticSiteGeneratorException($"Team at {filePath} cannot be read!");
 						}
 					)
-			)).Where(x => x != null).Select(x => x!)
+			)
 		];
 	}
 
-	private async Task<SchemaDefinition?> LoadSchemaDefinition() {
+	private static async Task<SchemaDefinition?> LoadSchemaDefinition() {
 		const string path = "./schema.json";
 		return await JsonSerializer.DeserializeAsync<SchemaDefinition>(File.OpenRead(path));
 	}
