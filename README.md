@@ -32,6 +32,9 @@ ve výstupu neobjevuje, je buď neplatný JSON uvnitř souboru daného týmu neb
 
 Otevřete si `.team` soubor daného týmu. Do seznamu ve spodní části souboru zapište jméno hry v následujícím formátu:
 
+> [!important]
+> Poslední hra v pořadí za sebou nemá čárku, ostatní mají. V případě že zpracování selže, zkontrolujte u daného týmu, zda jsou čárky správně umístěné
+
 ```json
 {
   "Identifier": "team1",
@@ -42,5 +45,3 @@ Otevřete si `.team` soubor daného týmu. Do seznamu ve spodní části souboru
   ]
 }
 ```
-
-Poslední hra v pořadí za sebou nemá čárku, ostatní mají.
