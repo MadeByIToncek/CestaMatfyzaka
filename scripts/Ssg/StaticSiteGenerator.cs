@@ -32,13 +32,11 @@ public partial class StaticSiteGenerator {
 
 		Directory.CreateDirectory("./public");
 
-		LinkedList<Task> pageRenders = [];
-
-		pageRenders.AddLast(RenderIndex(teamScores, sd));
-		pageRenders.AddLast(RenderGameIndex(sd));
-		foreach (TeamScore score in teamScores) {
-			pageRenders.AddLast(RenderTeamPage(score, sd));
-		}
+		List<Task> pageRenders = [
+			RenderIndex(teamScores, sd),
+			RenderGameIndex(sd),
+			.. teamScores.Select(score => RenderTeamPage(score, sd))
+		];
 
 		await Task.WhenAll(pageRenders);
 		LogTimed(sw, "Render finished!");
