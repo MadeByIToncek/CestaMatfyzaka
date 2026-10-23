@@ -6,7 +6,10 @@ namespace CestaMatfyzaka.Ssg;
 public partial class StaticSiteGenerator {
 	private static async Task RenderIndex(List<TeamScore> teamScores, SchemaDefinition sd) {
 		StringBuilder sb = new();
-		foreach (string formattedRow in teamScores.Select(x => FormatTeam(x, sd))) {
+		foreach (string formattedRow in teamScores
+			         .OrderBy(x => x.ObtainedCategories.Count)
+			         .ThenBy(x => x.Team.PrettyName)
+			         .Select(x => FormatTeam(x, sd))) {
 			sb.AppendLine(formattedRow);
 		}
 
