@@ -11,9 +11,9 @@ public partial class StaticSiteGenerator {
 			StringBuilder sb3 = new();
 			sb3.AppendFormat(ColumnCell, sdCategory.PrettyName);
 			if (score.ObtainedCategories.Contains(sdCategory.Identifier)) {
-				sb3.AppendFormat(ColumnCellOk, "✅ Category Completed");
+				sb3.AppendFormat(ColumnCellOk, "✅");
 			} else {
-				sb3.AppendFormat(ColumnCellFail, "❌ Category Not Completed");
+				sb3.AppendFormat(ColumnCellFail, "❌");
 			}
 
 			StringBuilder sb4 = new();
